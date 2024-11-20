@@ -1,19 +1,25 @@
 const URL_CHARACTERS = 'https://rickandmortyapi.com/api/character'
 let characters = []
 
-async function getCharacters(url) {
-try {
-   const response = await fetch(url);
-   const data = await response.json();
-   console.log(data);
-   characters = data.results;
-   showCharacters(characters);
-}
-catch(error) {
-    console.error("Error al obtener los datos:", error);
-}
+function getCharacters(url) {
+fetch(url)
+.then (response => {
+    if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`)
+        
+    }
+    return response.json()
+})
+.then ( data => {
+    console.log(data);
+    characters = data.results;
+    showCharacters(characters);
+})
+.catch (error => {
+    console.log("Ocurrió un error:", error);
+});
 
-}
+};
 
 
 function showCharacters (array) {
